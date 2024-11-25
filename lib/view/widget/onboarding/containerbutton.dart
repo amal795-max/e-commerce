@@ -1,8 +1,12 @@
 import 'package:e_commerce/controller/onboardingcontroller.dart';
+import 'package:e_commerce/core/constants/approutes.dart';
+import 'package:e_commerce/view/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/constants/appcolor.dart';
 import '../../../data/data_source/onboarding.dart';
+import '../test.dart';
+
 
 class containerButton extends StatelessWidget {
   const containerButton({super.key});
@@ -15,7 +19,11 @@ class containerButton extends StatelessWidget {
         return Column(
           children: [
             FilledButton(onPressed: (){
-              controller.next();},
+              controller.next();
+              if(controller.current==onboardingList.length){
+                Get.toNamed(AppRoutes.signUp);
+                }
+              },
                 style: FilledButton.styleFrom(
                     backgroundColor: AppColor.orange),
                 child: Text(controller.current!=onboardingList.length-1?"Next":"finish")
@@ -30,7 +38,7 @@ class containerButton extends StatelessWidget {
                       width: controller.current==i ? 18 : 12,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          color: controller.current==i ?AppColor.green :AppColor.lightGrey
+                          color: controller.current==i ?AppColor.blue :AppColor.lightGrey
                       )
                   ))]
             ),

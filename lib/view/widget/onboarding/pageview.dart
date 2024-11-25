@@ -24,6 +24,8 @@ class pageView extends StatelessWidget {
                   Text(
                     onboardingList[index].title,
                     style: const TextStyle(fontSize: 24, ),
+                    textAlign: TextAlign.center,
+
                   ),
                   Padding(
                     padding: const EdgeInsets.all(18),
