@@ -1,165 +1,66 @@
-import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:e_commerce/core/constants/appcolor.dart';
+import 'package:e_commerce/core/constants/approutes.dart';
+import 'package:e_commerce/view/widget/CustomButton.dart';
 import 'package:e_commerce/view/widget/PickImageWidget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:e_commerce/view/widget/header.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import '../../core/constants/gradientBall.dart';
+import '../widget/CustomTextField.dart';
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size =MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-        body: SizedBox.expand(
-    child: Stack(
-      alignment: Alignment.topCenter,
+      body: SingleChildScrollView(
+        child: Stack(
           children: [
-            Container(
-              padding: EdgeInsets.only(top: 55),
-              width: double.infinity,
-              child: Text("Sign Up",style: TextStyle(fontSize: 30,color: Colors.black54),),
-          alignment: Alignment.topCenter,
-          height: size.height/2.2,
-        decoration: BoxDecoration(
-        color: AppColor.blue,
-          
-        ),),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 150,horizontal: 20),
-              child: BlurryContainer(
-                blur: 8,
-                elevation: 10,
-                height: size.height/1.6,
-                padding: const EdgeInsets.all(32),
-                color: Colors.white.withOpacity(0.6),
-                child: SingleChildScrollView(
-
-                  child:  Column(
-
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                    PickImageWidget(),
-
-                     const SizedBox(height: 20,),
-                      SizedBox(
-                        height: 55,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey.shade200,
-                            enabledBorder: OutlineInputBorder(
-
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            labelText: "phone number",
-                            labelStyle: TextStyle(fontSize: 12, color: Colors.black),
-                            floatingLabelStyle: TextStyle(fontSize: 12, color: Colors.black), // For floating label
-                            prefixIcon: Icon(Icons.phone),
-                          ),
-                        ),
-
-                      ),
-                      SizedBox(height: 15),
-
-                      SizedBox(
-                        height: 55,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-                            filled: true,
-                            fillColor: Colors.grey.shade200,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(25)
-                            ), focusedBorder:OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                            labelText: "password" ,
-                              labelStyle: TextStyle(fontSize: 12),
-                            floatingLabelStyle: TextStyle(fontSize: 12, color: Colors.black), // For floating label
-
-
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      SizedBox(
-                        height: 55,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-
-                            filled: true,
-                            fillColor: Colors.grey.shade200,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(25)
-                            ), focusedBorder:OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                            labelStyle: TextStyle(fontSize: 12),
-                            labelText: "confirm password" ,
-                            floatingLabelStyle: TextStyle(fontSize: 12, color: Colors.black), // For floating label
-
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-
-                      SizedBox(
-                        height: 55,
-                        child: TextField(
-
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.location_pin),
-
-                              filled: true,
-                            fillColor: Colors.grey.shade200,
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(25)
-                            ), focusedBorder:OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                            labelText: "Location" ,
-                              labelStyle: TextStyle(fontSize: 12),
-                            floatingLabelStyle: TextStyle(fontSize: 12, color: Colors.black), // For floating label
-
-
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-
-                    ],
-                  ),
-                ),
-              ),
+            const Positioned(
+              top: -40,
+              left: -30,
+              child: GradientBall(),
             ),
-            Positioned(
-              bottom: 125,
-              child: CupertinoButton(
-                  color: AppColor.blue,
-                  child: Text("Register"), onPressed: (){}),
-            ) , Positioned(
-              bottom: 70,
-              child: Row(
-                children: [
-                  Text("already have an acount ? ",style: TextStyle(color: AppColor.grey),),
-                  Text("Sign in",style: TextStyle(color: AppColor.blue),)
-                ],
-              )
-            )
-    ])));
+            const Positioned(
+              top: 175,
+              right: -60,
+              child: GradientBall(),
+            ),
+            Column(
+              children: [
+              const Header(title: "Create account", subtitle: "Please, Provide your information",),
+               const SizedBox(height: 15),
+               const PickImageWidget(),
+                const SizedBox(height: 25),
+                const CustomTextField(label: "First Name", icon: Icons.text_format),
+                const SizedBox(height: 15),
+                const CustomTextField(label: "Last Name", icon: Icons.text_format),
+                const SizedBox(height: 15),
+                const CustomTextField(label: "phone number", icon: Icons.phone),
+                const SizedBox(height: 15),
+                const CustomTextField(label: "password", icon: Icons.lock),
+                const SizedBox(height: 15),
+                const CustomTextField(label: "Location", icon: Icons.location_pin),
+                const SizedBox(height: 15),
+
+                 const CustomButton(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("already have an account ?", style: TextStyle(color: AppColor.black)),
+                    TextButton(
+                        onPressed: () {
+                          Get.offNamed(AppRoutes.signIn);
+                        },
+                        child: Text("Sign in", style: TextStyle(color: AppColor.orange))),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

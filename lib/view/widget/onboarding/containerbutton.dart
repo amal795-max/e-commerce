@@ -1,11 +1,9 @@
 import 'package:e_commerce/controller/onboardingcontroller.dart';
 import 'package:e_commerce/core/constants/approutes.dart';
-import 'package:e_commerce/view/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/constants/appcolor.dart';
 import '../../../data/data_source/onboarding.dart';
-import '../test.dart';
 
 
 class containerButton extends StatelessWidget {
@@ -38,7 +36,7 @@ class containerButton extends StatelessWidget {
                       width: controller.current==i ? 18 : 12,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          color: controller.current==i ?AppColor.blue :AppColor.lightGrey
+                          color: controller.current==i ?AppColor.green :AppColor.lightGrey
                       )
                   ))]
             ),

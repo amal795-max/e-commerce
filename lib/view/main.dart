@@ -1,9 +1,7 @@
 import 'package:e_commerce/view/routes.dart';
-import 'package:e_commerce/view/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'screens/onboarding.dart';
-import 'widget/test.dart';
 
 void main() {
   runApp(const MyApp());

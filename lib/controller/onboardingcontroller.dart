@@ -16,5 +16,6 @@ class OnBoardingController extends GetxController {
     current = index;
     update();
   }
+
 }
 

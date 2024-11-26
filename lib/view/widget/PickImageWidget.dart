@@ -1,3 +1,4 @@
+import 'package:e_commerce/core/constants/appimages.dart';
 import 'package:flutter/material.dart';
 import '../../core/constants/appcolor.dart';
 
@@ -16,7 +17,7 @@ class PickImageWidget extends StatelessWidget {
             child:
                CircleAvatar(
             backgroundColor: Colors.grey.shade200,
-            backgroundImage: const AssetImage("images/avatarman.jpg"),
+            backgroundImage:  AssetImage(AppImages.avatar),
             child: Stack(
               children: [
                 Positioned(
@@ -28,7 +29,7 @@ class PickImageWidget extends StatelessWidget {
                       height: 35,
                       width: 35,
                       decoration: BoxDecoration(
-                        color: AppColor.blue,
+                        color: AppColor.green,
                         border: Border.all(color: Colors.white, width: 2.5),
                         borderRadius: BorderRadius.circular(25),
                       ),
