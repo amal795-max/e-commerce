@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:e_commerce/controller/cubit/api/api_consumer.dart';
 import 'package:e_commerce/controller/cubit/api/endPoints.dart';
 import 'package:e_commerce/controller/cubit/errors/ServerException.dart';
+import 'package:e_commerce/data/model/signup_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/functions/uploadImageToApi.dart';
@@ -19,6 +20,10 @@ class SignUpCubit extends Cubit<UserState>{
   TextEditingController location=TextEditingController();
   XFile? profile;
 
+  // uploadProfilePicture(XFile image){
+  //   profile=image;
+  //   emit(UploadProfilePic());
+  // }
 
   signup()async{
     try{
@@ -32,9 +37,11 @@ class SignUpCubit extends Cubit<UserState>{
       ApiKeys.location:location.text,
       ApiKeys.profile:await uploadImageToApi(profile!),
     });
-    emit(SignUpSuccess());
+    SignUpModel signUpModel = SignUpModel.fromJson(response);
+
+    emit(SignUpSuccess(message:signUpModel.message));
   } on ServerException catch(e){
-      emit(SignUpFailure());
+      emit(SignUpFailure(message:e.errModel.message ,error:e.errModel.errors ));
 
     }
     }

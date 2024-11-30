@@ -4,19 +4,20 @@ import '../../core/constants/appcolor.dart';
 
 class CustomButton extends StatelessWidget {
   final void Function()? onPressed;
-  const CustomButton({super.key, this.onPressed});
+  final String text;
+  const CustomButton({super.key, this.onPressed, required this.text});
 
   @override
   Widget build(BuildContext context) {
 
     return Container(
         width: double.infinity,
-        padding:const EdgeInsets.symmetric(horizontal: 30),
+        padding:const EdgeInsets.symmetric(horizontal: 20),
     child: ElevatedButton(
     style: ElevatedButton.styleFrom(
     backgroundColor: AppColor.orange,
     foregroundColor: AppColor.white
     ),
-    child: const Text("Log In"), onPressed: onPressed));
+    child: Text(text), onPressed: onPressed));
   }
 }

@@ -23,7 +23,7 @@ class containerButton extends StatelessWidget {
                 }
               },
                 style: FilledButton.styleFrom(
-                    backgroundColor: AppColor.orange),
+                    backgroundColor: AppColor.green),
                 child: Text(controller.current!=onboardingList.length-1?"Next":"finish")
             ),
             const SizedBox(height: 40),
@@ -36,7 +36,7 @@ class containerButton extends StatelessWidget {
                       width: controller.current==i ? 18 : 12,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          color: controller.current==i ?AppColor.green :AppColor.lightGrey
+                          color: controller.current==i ?AppColor.orange :AppColor.lightGrey
                       )
                   ))]
             ),

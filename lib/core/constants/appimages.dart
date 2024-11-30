@@ -5,5 +5,5 @@ class AppImages{
   static  String onboardingImage2="$images/on2.jpg";
   static  String onboardingImage3="$images/on3.jpg";
   static  String avatar="$images/avatar.jpg";
-  static  String signin="$images/SignIn.png";
+  static  String signin="$images/Login.png";
 }
