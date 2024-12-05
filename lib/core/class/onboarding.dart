@@ -1,7 +1,7 @@
-class OnBoarding{
+class On_boarding{
   String image;
   String title;
   String body;
-  OnBoarding(this.image, this.title, this.body);
+  On_boarding(this.image, this.title, this.body);
 
 }

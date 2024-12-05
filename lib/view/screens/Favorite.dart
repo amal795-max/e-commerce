@@ -22,7 +22,7 @@ class Favorite extends StatelessWidget {
                 color: AppColor.lightGrey,
                 child: ListTile(
                   leading: Image.asset("images/lenovo.png"),
-                  title: const Text("laptop lenovo"),
+                  title:  Text("laptop lenovo",style:Theme.of(context).textTheme.bodyText1),
                   subtitle: Text("500 \$",style: TextStyle(color: AppColor.orange),),
                   trailing: Icon(Icons.favorite,color: AppColor.red,),
                 ),

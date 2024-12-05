@@ -9,6 +9,7 @@ import 'package:e_commerce/view/widget/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import '../../core/constants/gradientBall.dart';
 import '../widget/CustomTextField.dart';
 
@@ -18,15 +19,18 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var signup =context.read<SignUpCubit>();
-    GlobalKey<FormState> signUpKey = GlobalKey();
     return BlocConsumer<SignUpCubit,UserState>(
       listener: (context, state) {
        if( state is SignUpSuccess){
-       }
-      if ( state is SignUpFailure){}
+         Get.snackbar("done", state.message);}
+      if ( state is SignUpFailure){
+        Get.snackbar("title", state.message);
+      }
       },
       builder: (context,state) {
-        return Scaffold(
+        return state is SignUpLoading?Container(
+          color: AppColor.white,
+            child: Lottie.asset("lottie/loading.json")): Scaffold(
           body: SingleChildScrollView(
             child: Stack(
               children: [
@@ -36,18 +40,18 @@ class SignUp extends StatelessWidget {
                   child: GradientBall(),
                 ),
                 const Positioned(
-                  top: 175,
+                  top: 165,
                   right: -60,
                   child: GradientBall(),
                 ),
                 Form(
-                  key: signUpKey,
+                  key: signup.signUpKey,
                   child: Padding(
                     padding:const EdgeInsets.symmetric(horizontal: 30),
                     child: Column(
                       children: [
                       const Header(title: "Create account", subtitle: "Please, Provide your information",),
-                       const SizedBox(height: 15),
+                       const SizedBox(height: 12),
                        const PickImageWidget(),
                         const SizedBox(height: 25),
                          CustomTextField(
@@ -60,8 +64,12 @@ class SignUp extends StatelessWidget {
                          CustomTextField(label: "phone number", icon: Icons.phone,controller1: signup.phoneNumber,
                             validator:(val)=> validInput(10, 10, "phone number", val!)),
                         const SizedBox(height: 15),
-                         CustomTextField(label: "Password", icon: Icons.lock,controller1: signup.password,
+                        CustomTextField(label: "Password", icon: Icons.lock,controller1: signup.password,
                              validator:(val)=>validInput(64, 8,"Password", val!)),
+                        const SizedBox(height: 15),
+
+                        CustomTextField(label: "Confirm Password", icon: Icons.lock,controller1: signup.confirmPassword,
+                            validator:(val)=>validInput(64, 8,"Confirm Password", val!)),
                         const SizedBox(height: 15),
                          CustomTextField(label: "Location", icon: Icons.location_pin,controller1: signup.location,
                              validator:(val)=> validInput(35, 4,"Location",val!)),
@@ -70,9 +78,8 @@ class SignUp extends StatelessWidget {
                           CustomButton(
                             text: "Sign Up",
                               onPressed: (){
-                            if(signUpKey.currentState!.validate()){
-                              print("yes");
-                            }
+                            //  signu/p.signup();
+                                Get.offNamed(AppRoutes.bottomAppbar);
                           }),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

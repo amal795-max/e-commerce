@@ -17,6 +17,7 @@ class CustomTextField extends StatelessWidget {
       init: visibility(),
       builder: (controller) {
         return TextFormField(
+          style: TextStyle(color: AppColor.black),
           controller: controller1,
             validator:validator ,
             obscureText:icon==Icons.lock?controller.obs:false,
@@ -26,7 +27,7 @@ class CustomTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               prefixIcon: Icon(icon),
               prefixIconColor: AppColor.orange,
-              suffixIcon:icon==Icons.lock? IconButton(onPressed: (){
+              suffixIcon:label=="Password"? IconButton(onPressed: (){
               controller.obscureText();
               }, icon:  controller.obs?const Icon(Icons.visibility_off):const Icon(Icons.visibility) ):null,
               filled: true,

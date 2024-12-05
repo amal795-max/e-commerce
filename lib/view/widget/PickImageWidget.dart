@@ -1,58 +1,64 @@
-import 'package:e_commerce/core/constants/appimages.dart';
+import 'dart:io';
+import 'package:e_commerce/core/constants/appcolor.dart';
 import 'package:flutter/material.dart';
-import '../../core/constants/appcolor.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../controller/cubit/UserState.dart';
+import '../../controller/cubit/signup_cubit.dart';
 
 class PickImageWidget extends StatelessWidget {
   const PickImageWidget({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
+    return BlocConsumer<SignUpCubit, UserState>(
+      listener: (context, state) {},
+      builder: (context, state) {
         return SizedBox(
-          width: 100,
-          height: 100,
-        //  child: context.read<SignUpCubit>().profile == null
-            child:
-               CircleAvatar(
+          width: 90,
+          height: 90,
+          child: context.read<SignUpCubit>().profile == null
+              ? CircleAvatar(
             backgroundColor: Colors.grey.shade200,
-            backgroundImage:  AssetImage(AppImages.avatar),
+            backgroundImage: const AssetImage("images/avatar.jpg"),
             child: Stack(
               children: [
                 Positioned(
-                  bottom: 5,
-                  right: 5,
-                  child: InkWell(
+                  bottom: 3,
+                  right: 3,
+                  child: GestureDetector(
                     onTap: () async {},
                     child: Container(
                       height: 35,
                       width: 35,
                       decoration: BoxDecoration(
                         color: AppColor.green,
-                        border: Border.all(color: Colors.white, width: 2.5),
+                        border: Border.all(color: AppColor.white, width: 3),
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: InkWell(
-                        // onTap: () {
-                        //   ImagePicker().pickImage(source: ImageSource.gallery)
-                        //       .then((value) => context.read<SignUpCubit>().uploadProfilePicture(value!));
-                        // },
-                        child: const Icon(
+                      child: GestureDetector(
+                        onTap: () {
+                          ImagePicker().pickImage(source: ImageSource.gallery).
+                          then((value) => context.read<SignUpCubit>().uploadProfilePicture(value!));
+                        },
+                        child:  Icon(
                           Icons.camera_alt_sharp,
-                          color: Colors.white,
-                          size: 21,
+                          color:AppColor.white,
+                          size: 20,
                         ),
                       ),
-                    ),
-                  ),
-                ),
+                    ),))
               ],
             ),
           )
-
+              : CircleAvatar(
+            backgroundImage: FileImage(
+                File(context.read<SignUpCubit>().profile!.path)),
+          ),
         );
-
-
+      },
+    );
   }
 }

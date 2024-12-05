@@ -1,8 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../core/services/services.dart';
 class OnBoardingController extends GetxController {
-   PageController pageController = PageController();
+  MyServices myServices =Get.find();
+
+  PageController pageController = PageController();
   int current = 0;
 
   next() {
@@ -15,7 +19,11 @@ class OnBoardingController extends GetxController {
   pageChanged(int index) {
     current = index;
     update();
-  }
-
-}
+  }}
+//@override
+  // void onInit() {
+  //   myServices.saveData(key: "get in", value: true);
+  //   super.onInit();
+  // }
+//}
 

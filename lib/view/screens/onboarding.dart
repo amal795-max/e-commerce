@@ -1,3 +1,4 @@
+import 'package:e_commerce/core/services/services.dart';
 import 'package:e_commerce/view/widget/onboarding/containerbutton.dart';
 import 'package:e_commerce/view/widget/onboarding/pageview.dart';
 import 'package:flutter/material.dart';

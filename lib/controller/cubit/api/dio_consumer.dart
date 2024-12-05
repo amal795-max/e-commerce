@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import '../errors/ServerException.dart';
 import 'api_consumer.dart';
+import 'api_interceptor.dart';
 import 'endPoints.dart';
 
 class DioConsumer extends ApiConsumer {
@@ -9,8 +10,14 @@ class DioConsumer extends ApiConsumer {
 
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = EndPoint.baseUrl;
-  //  dio.interceptors.add(ApiInterceptor());
-    dio.interceptors.add(LogInterceptor(request: true, requestHeader: true, requestBody: true, responseHeader: true, responseBody: true, error: true,));
+   dio.interceptors.add(ApiInterceptor());
+    dio.interceptors.add(LogInterceptor(
+      request: true,
+      requestHeader: true,
+      requestBody: true,
+      responseHeader: true,
+      responseBody: true,
+      error: true,));
   }
 
   @override

@@ -11,7 +11,7 @@ class BottomAppBarController extends GetxController{
     const Home(),
     const Cart(),
     const Favorite(),
-    const Profile()
+     Profile()
   ];
   changePage(int currentIndex){
     current=currentIndex;
