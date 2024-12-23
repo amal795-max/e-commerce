@@ -1,152 +1,94 @@
-import 'package:e_commerce/controller/cubit/logoutcubit.dart';
-import 'package:e_commerce/core/constants/appcolor.dart';
-import 'package:e_commerce/view/widget/CustomListTile.dart';
+import 'package:e_commerce/controller/cubit/api/endPoints.dart';
+import 'package:e_commerce/controller/cubit/updateProfile_cubit.dart';
+import 'package:e_commerce/view/widget/CustomButton.dart';
+import 'package:e_commerce/view/widget/CustomExpanionTile.dart';
+import 'package:e_commerce/view/widget/Loading.dart';
+import 'package:e_commerce/view/widget/PickImageWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import '../../controller/darkmode.dart';
+import '../../controller/cubit/UserState.dart';
 import '../../core/class/HeaderPainter.dart';
-import '../../core/constants/approutes.dart';
-class Profile extends StatefulWidget {
+import '../../core/services/services.dart';
+class Profile extends StatelessWidget {
   const Profile({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
-}
-
-class _ProfileState extends State<Profile> {
-  String selectedLanguage = 'Option 1'; // State variable
-
-  @override
   Widget build(BuildContext context) {
-    Get.put(Dark());
-
+    MyServices myServices =Get.find();
+    var update =context.read<UpdateProfileCubit>();
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColor.lightOrange,
-        title: const Text("Settings"),
-        centerTitle: true,
-      ),
-      body: ListView(
-        children: [
-          Stack(
-            children: [
-              CustomPaint(
-                painter: HeaderPaint(),
-                child: SizedBox(width: size.width, height: size.height / 4),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Center(
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage("images/avatar.jpg"),
+    return BlocConsumer<UpdateProfileCubit, UserState>(
+      listener: (context, state) {
+        if(state is UpdateProfileSuccess){
+          Get.snackbar("","Profile updated successfully!");
+        };
+      },
+      builder: (context, state) {
+    return state is UpdateProfileLoading?
+         Loading():Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      CustomPaint(
+                        painter: HeaderPaint(),
+                        child: SizedBox(
+                          height: size.height / 3,
+                          width: size.width,
+                        ),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: size.width / 2,
+                            bottom: 30,
+                          ),
+                          child: PickImageWidget(backgroundImage: NetworkImage(myServices.getData(key: ApiKeys.image)),)
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  CustomExpansionTile(
+                    iconData: Icons.account_box,
+                    trailing: Icons.edit,
+                    subtitle: myServices.getData(key: ApiKeys.first_name),
+                    title: "first name",
+                    hintText: "enter new first name :",
+                    controller: update.updateFirstName,
+                  ),
+                  CustomExpansionTile(
+                    iconData: Icons.account_box,
+                    trailing: Icons.edit,
+                    subtitle: myServices.getData(key: ApiKeys.last_name),
+                    title: "last name",
+                    hintText: "Enter new last name:",
+                    controller: update.updateLastName,
+
+                  ),
+                  CustomExpansionTile(
+                    iconData: Icons.location_on,
+                    trailing: Icons.edit_location_alt_rounded,
+                    subtitle: myServices.getData(key: ApiKeys.location),
+                    title: "location",
+                    hintText: "enter new location :",
+                    controller: update.updateLocation,
+
+                  ),
+                  const SizedBox(height: 20,),
+                 state is ShowUserLoading?const CircularProgressIndicator():
+                 CustomButton(text: "save",onPressed: (){
+                   update.updateProfile();
+
+
+
+                 })
+                ],
               ),
-            ],
-          ),
-          const CustomListTile(
-            title: "Account",
-            iconData: Icons.account_circle_rounded,
-            trailing: Icon(Icons.arrow_forward_ios, size: 18),
-          ),
-          Divider(),
-          // Language Expansion Tile
-          ExpansionTile(
-            leading: Icon(Icons.language, color: AppColor.orange),
-            subtitle: const Text("Device Language (ar)"),
-            title: const Text("App Language"),
-            trailing: Icon(Icons.arrow_forward_ios, size: 18),
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    RadioListTile<String>(
-                      enableFeedback: true,
-                      title: const Text('Arabic'),
-                      value: 'Option 1',
-                      groupValue: selectedLanguage,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedLanguage = value!;
-                        });
-                      },
-                    ),
-                    RadioListTile<String>(
-                      title: const Text('English'),
-                      value: 'Option 2',
-                      groupValue: selectedLanguage,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedLanguage = value!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Divider(),
-          const CustomListTile(
-            title: "Terms Of Use",
-            iconData: Icons.privacy_tip_rounded,
-            trailing: Icon(Icons.arrow_forward_ios, size: 18),
-          ),
-          CustomListTile(
-            title: "Privacy Policy",
-            iconData: Icons.help,
-            trailing: Icon(Icons.arrow_forward_ios, size: 18),
-            onTap: () {
-              Get.toNamed(AppRoutes.contents);
-            },
-          ),
-          GetBuilder<Dark>(
-            builder: (controller) {
-              return CustomListTile(
-                title: "Change Mode",
-                subtitle: controller.value ? "Dark mode" : "Light mode",
-                iconData: controller.value ? Icons.dark_mode : Icons.light_mode,
-                trailing: Switch(
-                  value: controller.value,
-                  onChanged: (val) {
-                    controller.on();
-                    Get.changeTheme(controller.value ? ThemeData.dark() : ThemeData.light());
-                  },
-                  activeColor: Colors.green,
-                ),
-              );
-            },
-          ),
-          Divider(),
-          CustomListTile(
-            title: "Logout",
-            iconData: Icons.logout,
-            onTap: () {
-              Get.defaultDialog(
-                title: "Alert",
-                content: const Text("Are you sure you want to logout?"),
-                confirm: TextButton(
-                  onPressed: () {
-                    context.read<LogoutCubit>().logout();
-                  },
-                  child: const Text("Yes"),
-                ),
-                cancel: TextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: const Text("No"),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+            ),
+    );
+      }
     );
   }
 }

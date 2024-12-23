@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 height: double.infinity,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [_colorAnimation.value!, AppColor.white],
+                    colors: [_colorAnimation.value!, AppColor.lightGrey2],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -70,11 +70,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             FadeInRight(
               duration: Duration(milliseconds: 800),
               delay: Duration(milliseconds: 800),
-                 child:  Text("Welcome to our app ..",  style: TextStyle(
-                   fontSize: 20,
+                 child:  TextButton.icon(onPressed: (){},
+                     icon: Icon(Icons.waving_hand,color: AppColor.black,),
+                     label:Text("welcome".tr , style: TextStyle(
+                       color: AppColor.black,
+                   fontSize: 25,
                    fontWeight: FontWeight.bold,))),
-
-                ],
+            )]
               ),
 
           ),

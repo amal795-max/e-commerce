@@ -1,28 +1,44 @@
-import 'package:e_commerce/view/screens/ProductDetails.dart';
+import 'package:e_commerce/controller/cubit/api/endPoints.dart';
+import 'package:e_commerce/core/constants/approutes.dart';
+import 'package:e_commerce/core/services/services.dart';
+import 'package:e_commerce/view/widget/CustomProducts.dart';
+import 'package:e_commerce/view/widget/CustomStores.dart';
 import 'package:e_commerce/view/widget/CustomTextField.dart';
+import 'package:e_commerce/view/widget/Loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import '../../controller/binding.dart';
+import '../../controller/cubit/AllStoresCubit.dart';
+import '../../controller/cubit/UserState.dart';
 import '../../core/constants/appcolor.dart';
+import '../../data/data_source/Search.dart';
+import 'Products.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
-
   @override
   Widget build(BuildContext context) {
+    context.read<AllStoresCubit>().getAllStores();
+    List stores=[];
+    MyServices myServices=Get.find();
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             foregroundColor: AppColor.orange,
-            title: const Text("Hi.UserName"),
+            title:  Text("Hi.${myServices.getData(key: ApiKeys.first_name)+" "+myServices.getData(key: ApiKeys.last_name)}"),
             actions: [
-              Container(
-                padding: const EdgeInsets.only(right: 10),
-                height: 70,
-                width: 70,
-                child:  CircleAvatar(
-                  backgroundColor: AppColor.lightGrey,
+              GestureDetector(
+                onTap:(){
+                  Get.toNamed(AppRoutes.profile);},
+                child: Container(
+                  padding: const EdgeInsets.only(right: 10),
+                  height: 70,
+                  width: 70,
+                  child:  CircleAvatar(
+                    backgroundColor: AppColor.lightGrey,
+                    backgroundImage: NetworkImage(myServices.getData(key: ApiKeys.image_url)),
+                  ),
                 ),
               ),
             ],
@@ -31,84 +47,41 @@ class Home extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15,horizontal: 12),
-                  child: CustomTextField(label: "Search on store ..", icon: Icons.search),
-                ),
-                ListTile(leading: const Text("Most Popular ", style: TextStyle(fontSize: 18))),
+               CustomTextField(label: "Search".tr, icon: Icons.search,
+               onTap: (){
+                 context.read<AllStoresCubit>().getAllStores();
+                 showSearch(context: context, delegate: search());}),
+            ListTile(leading:  Text("most popular".tr, style:const TextStyle(fontSize: 18))),
 
-            SizedBox(
-            height: 200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap:(){Get.to(() =>const ProductDetails(), binding: Binding());
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.lightGrey2,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColor.lightGrey,
-                            blurRadius: 4,
-                            spreadRadius: 1.3,
-                            offset: const Offset(6, -4),
-                          )]),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 3),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset("images/lenovo.png", height: 130, width: 140,),
-                             Text("Lenovo LOQ 15A ", style: TextStyle(fontSize: 12,color: AppColor.black),),
-                            Text(" 720 \$", style: TextStyle(color: AppColor.green)),
-                          ])),),
-                  ),
-                );
-              }
-            ),
-          ),
-          SizedBox(height: 10,),
-          Padding(
+             // CustomProducts(itemCount: 5, image: "images/lenovo.png", name: "lenovo 15AQ", price: "600 \$"),
+             const SizedBox(height: 10),
+            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 17),
-            child: Text("Our Stores ",style: TextStyle(fontSize: 18),),
+            child: Text("our stores".tr,style:const TextStyle(fontSize: 18),),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: GridView.builder(
-              physics:const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-                gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 2, childAspectRatio: 0.8,),
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                  color: AppColor.lightOrange,
-                  borderRadius: BorderRadius.circular(20)),
-                        child: Column(
-                          children: [
-                            Image.asset("images/store.png",height: 140,width: 140,),
-                            Text("Laptops",style: TextStyle(color: AppColor.black),),
-                            TextButton.icon(
-                                onPressed: (){
-                                }, icon: Icon(Icons.pin_drop_outlined,color: AppColor.orange,),
-                              label: Text("Damascus",style: TextStyle(color: AppColor.orange)),)
+            child: BlocConsumer<AllStoresCubit, UserState>(
+              listener: (context, state){
+              },
+              builder: (context, state) {
+                return state is GetAllStoresSuccess ? ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount:state.stores.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CustomStores(
+                      onTap: (){
+                        myServices.saveData(key: ApiKeys.selectedStoreId,value:state.stores[index].id); // Save selected store ID
+                        Get.toNamed(AppRoutes.stores);},
 
-                          ],
-                        ),
-
-                    );
-                },
-
-            ),
-          ),
-        ],
+                        imageData: "http://192.168.1.112:8000/StoreImages/"+state.stores[index].store_image,
+                        storeName: state.stores[index].name,
+                        description: state.stores[index].description);
+                    },
+                ):const Loading() ;
+              }),
+          )],
       ),
     )]));
   }

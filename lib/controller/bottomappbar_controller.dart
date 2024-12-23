@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../view/screens/Cart.dart';
 import '../view/screens/Favorite.dart';
-import '../view/screens/Profile.dart';
+import '../view/screens/settings.dart';
 
 class BottomAppBarController extends GetxController{
   int current=0;
@@ -11,7 +11,7 @@ class BottomAppBarController extends GetxController{
     const Home(),
     const Cart(),
     const Favorite(),
-     Profile()
+     const Settings()
   ];
   changePage(int currentIndex){
     current=currentIndex;

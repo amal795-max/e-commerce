@@ -1,4 +1,4 @@
-import 'package:e_commerce/controller/onboardingcontroller.dart';
+import 'package:e_commerce/controller/onboarding_controller.dart';
 import 'package:e_commerce/core/constants/approutes.dart';
 import 'package:e_commerce/view/widget/onboarding/circles.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class containerButton extends StatelessWidget {
                 Get.offNamed(AppRoutes.signUp);}},
                 style: FilledButton.styleFrom(
                     backgroundColor: AppColor.deepOrange),
-                child: Text(controller.current!=onboardingList.length-1?"Next":"finish")
+                child: Text(controller.current!=onboardingList.length-1?"next".tr:"finish".tr)
             ),
             const SizedBox(height: 40),
 

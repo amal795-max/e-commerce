@@ -17,10 +17,11 @@ final class SignInSuccess extends UserState{
 
 //sign up
 final class SignUpLoading extends UserState{}
-final class SignUpFailure extends UserState{
+final class SignUpFailure extends UserState {
   final String message;
-  final String error;
-  SignUpFailure({required this.message, required this.error});
+  SignUpFailure({required this.message});
+
+
 }
 final class SignUpSuccess extends UserState{
   final String message;
@@ -30,10 +31,42 @@ final class SignUpSuccess extends UserState{
 final class LogOutLoading extends UserState{}
 final class LogOutFailure extends UserState{
   final String message;
-  final String errors;
-  LogOutFailure( {required this.message,required this.errors});
+  LogOutFailure( {required this.message,});
 }
 final class LogOutSuccess extends UserState{
   final String message;
   LogOutSuccess({required this.message});
 }
+
+final class ShowUserLoading extends UserState{}
+final class ShowUserSuccess extends UserState{}
+final class ShowUserFailure extends UserState{}
+
+
+final class UpdateProfileLoading extends UserState{}
+final class UpdateProfileFailure extends UserState{}
+final class UpdateProfileSuccess extends UserState{}
+
+
+final class GetAllStoresLoading extends UserState{}
+final class GetAllStoresFailure extends UserState{}
+final class GetAllStoresSuccess extends UserState{
+ List stores;
+
+  GetAllStoresSuccess({required this.stores});
+}
+
+
+final class AddToFavoriteSuccess extends UserState{}
+
+
+
+final class GetProductSuccess extends UserState{
+   List products;
+   String storeName;
+   GetProductSuccess({required this.products,required this.storeName});
+
+}
+final class GetProductFailure extends UserState{}
+final class GetProductLoading extends UserState{}
+

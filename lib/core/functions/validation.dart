@@ -2,18 +2,20 @@ import 'package:get/get.dart';
 
 validInput(int max, int min, String type, String val) {
   if (val.isEmpty) {
-    return "This field can't be empty";
+    return "This field can't be empty".tr;
   }
 
   if (type == "phone number") {
     if (!GetUtils.isPhoneNumber(val)) {
-      return "Not a valid phone number";
-    }
-  } else if (type == "First Name" || type == "Last Name") {
-    if (!GetUtils.isUsername(val)) {
-      return "Not a valid username";
+      return "Not a valid phone number".tr;
     }
   }
+  if (type == "Email") {
+    if (!GetUtils.isEmail(val)) {
+      return "Not a valid Email".tr;
+    }
+  }
+
   if (val.length < min) {
     return "Can't be less than $min characters";
   }

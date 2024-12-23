@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../core/constants/appcolor.dart';
 
@@ -9,15 +10,15 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(
-        width: double.infinity,
-        padding:const EdgeInsets.symmetric(horizontal: 20),
-    child: ElevatedButton(
-    style: ElevatedButton.styleFrom(
-    backgroundColor: AppColor.orange,
-    foregroundColor: AppColor.white
-    ),
-    child: Text(text), onPressed: onPressed));
+    var size = MediaQuery.of(context).size.width;
+    return SizedBox(
+      width: size/2,
+      child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+      backgroundColor: AppColor.orange,
+      foregroundColor: AppColor.white
+      ),
+      child: Text(text.tr), onPressed: onPressed),
+    );
   }
 }

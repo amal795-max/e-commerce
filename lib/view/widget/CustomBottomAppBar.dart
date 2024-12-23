@@ -25,7 +25,6 @@ class CustomBottomAppBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(40),
-
               child: BottomAppBar(
                 color: AppColor.lightGrey2,
                 child: ListView.builder(

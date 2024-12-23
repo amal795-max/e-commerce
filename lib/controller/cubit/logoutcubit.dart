@@ -15,12 +15,12 @@ class LogoutCubit extends Cubit<UserState>{
     try{
       emit(LogOutLoading());
     final response =await api.get(EndPoint.logout);
-
+    
     LogoutModel logoutModel = LogoutModel.fromJson(response);
   emit(LogOutSuccess(message: logoutModel.message));
   }
   on ServerException catch(e){
-      emit(LogOutFailure(message: e.errModel.message,errors: e.errModel.errors!));
+      emit(LogOutFailure(message: e.errModel.message));
 
     }
 }}

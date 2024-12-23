@@ -17,7 +17,7 @@ class Circles extends StatelessWidget {
             height: 12,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
-                color: currentIndex==i ?AppColor.orange :AppColor.lightGrey            ),
+                color: currentIndex==i ?AppColor.green :AppColor.lightGrey            ),
           ),
         ),
       ],

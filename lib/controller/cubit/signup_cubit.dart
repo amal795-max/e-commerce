@@ -21,10 +21,11 @@ class SignUpCubit extends Cubit<UserState>{
   TextEditingController password=TextEditingController();
   TextEditingController confirmPassword=TextEditingController();
   TextEditingController location=TextEditingController();
-  XFile? profile;
+  TextEditingController email=TextEditingController();
+  XFile? profilepic;
 
-  uploadProfilePicture(XFile image){
-    profile=image;
+  uploadProfilePictureee(XFile image){
+    profilepic=image;
     emit(UploadProfilePic());
   }
 
@@ -36,18 +37,22 @@ class SignUpCubit extends Cubit<UserState>{
           ApiKeys.first_name: firstName.text,
           ApiKeys.last_name: lastName.text,
           ApiKeys.phone_number: phoneNumber.text,
+          ApiKeys.email: email.text,
           ApiKeys.password: password.text,
           ApiKeys.password_confirmation: confirmPassword.text,
           ApiKeys.location: location.text,
-          ApiKeys.profile: await uploadImageToApi(profile!),
+          ApiKeys.image: await uploadImageToApi(profilepic!),
         });
         SignUpModel signUpModel = SignUpModel.fromJson(response);
-        print(profile?.path);
+
+        services.saveData(key: ApiKeys.token, value: signUpModel.token);
+          services.saveData(key: ApiKeys.image_url, value: signUpModel.image_url);
+          services.saveData(key: ApiKeys.first_name, value: firstName.text);
+          services.saveData(key: ApiKeys.last_name, value:lastName.text);
 
         emit(SignUpSuccess(message: signUpModel.message));
       } on ServerException catch (e) {
-        emit(SignUpFailure(
-            message: e.errModel.message, error: e.errModel.errors!));
+        emit(SignUpFailure(message: e.errModel.message));
       }
     }else {
       return null;
