@@ -60,7 +60,7 @@ void main() async{
 
   NotificationsHelper notificationsHelper = NotificationsHelper();
 
-  //await notificationsHelper.initNotifications();
+  await notificationsHelper.initNotifications();
   notificationsHelper.handleBackgroundNotifications();
 
 

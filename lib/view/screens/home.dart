@@ -90,7 +90,7 @@ class Home extends StatelessWidget {
                       onTap: (){
                         myServices.saveData(key: ApiKeys.selectedStoreId,value:state.stores[index].id);
                         Get.to(()=>const TabBarPage());},
-                        imageData: "http://192.168.1.103:8000/StoreImages/"+state.stores[index].store_image,
+                        imageData: "http://192.168.104.85:8000/StoreImages/"+state.stores[index].store_image,
                         storeName: state.stores[index].name,
                         description: state.stores[index].description);
 

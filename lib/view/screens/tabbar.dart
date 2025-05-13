@@ -19,30 +19,30 @@ class TabBarPage extends StatefulWidget {
 }
 
 class _TabBarPageState extends State<TabBarPage> with SingleTickerProviderStateMixin {
-  TabController? _controller; // Use nullable TabController
-  Map<String, List> groupedProducts = {}; // Define globally
+  TabController? _controller;
+  Map<String, List> groupedProducts = {};
 
   @override
   void initState() {
     super.initState();
-    context.read<StoreWithProductCubit>().product(); // Fetch products in initState
+    context.read<StoreWithProductCubit>().product();
   }
 
   @override
   void dispose() {
-    _controller?.dispose(); // Dispose of TabController
+    _controller?.dispose();
     super.dispose();
   }
 
   void _initializeTabController() {
     if (_controller != null) {
-      _controller!.dispose(); // Dispose old controller
+      _controller!.dispose();
     }
     _controller = TabController(
       length: groupedProducts.entries.length,
       vsync: this,
     );
-    setState(() {}); // Rebuild widget tree with new controller
+    setState(() {});
   }
 
   @override
@@ -50,7 +50,7 @@ class _TabBarPageState extends State<TabBarPage> with SingleTickerProviderStateM
     return BlocConsumer<StoreWithProductCubit, UserState>(
       listener: (context, state) {
         if (state is GetProductSuccess) {
-          groupedProducts.clear(); // Clear previous data
+          groupedProducts.clear();
           for (var product in state.products) {
             if (!groupedProducts.containsKey(product.typeText)) {
               groupedProducts[product.typeText] = [];
