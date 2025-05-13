@@ -15,7 +15,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 7),
       child: GetBuilder<visibility>(
         init: visibility(),
         builder: (controller) {
@@ -31,7 +31,7 @@ class CustomTextField extends StatelessWidget {
                 contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 prefixIcon: Icon(icon),
                 prefixIconColor: AppColor.orange,
-                suffixIcon:label=="Password"? IconButton(onPressed: (){
+                suffixIcon:label=="Password"||label=="New password"? IconButton(onPressed: (){
                 controller.obscureText();
                 }, icon:  controller.obs?const Icon(Icons.visibility_off):const Icon(Icons.visibility) ):null,
                 filled: true,

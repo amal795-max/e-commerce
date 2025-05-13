@@ -4,6 +4,7 @@ import 'package:e_commerce/controller/cubit/errors/ServerException.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../../core/services/services.dart';
+import '../../data/model/ShowUserById_model.dart';
 import '../../data/model/showuser_model.dart';
 import 'api/api_consumer.dart';
 
@@ -25,6 +26,23 @@ class ShowUserCubit extends Cubit<UserState>{
     emit(ShowUserSuccess());
       }on ServerException catch(e){
       emit(ShowUserFailure());
+    }}
+
+
+  fetchUserByIdProfile(int id)async{
+    try{
+      emit(ShowUserBuIdLoading());
+      final response=await api.get(EndPoint.showUserById(id));
+      ShowUserByIdModel showUserByIdModel = ShowUserByIdModel.fromJson(response);
+      emit(ShowUserByIdSuccess(
+          first_name: showUserByIdModel.first_name,
+        last_name: showUserByIdModel.last_name,
+        location: showUserByIdModel.location,
+        image: showUserByIdModel.image,
+        phone_number: showUserByIdModel.phone_number,
+      ));
+    }on ServerException catch(e){
+      emit(ShowUserByIdFailure());
     }}
 
 }

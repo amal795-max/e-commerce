@@ -22,7 +22,7 @@ class CustomProducts extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Container(
-                width: 180,
+                width: 165,
                 decoration: BoxDecoration(
                   color: AppColor.lightGrey2,
                   borderRadius: BorderRadius.circular(20),

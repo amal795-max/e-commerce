@@ -35,9 +35,7 @@ class CustomBottomAppBar extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: IconButton(
                         onPressed: () => controller.changePage(i),
-                        icon: Icon(bottomIcons[i][IconData],
-                          color: controller.current == i ?AppColor.orange :null,
-                        )
+                        icon: Icon(bottomIcons[i][IconData], color: controller.current == i ?AppColor.orange :null)
 
                       ),
                     );

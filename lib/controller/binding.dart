@@ -5,7 +5,7 @@ import 'details_controller.dart';
 class Binding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DetailsController>(() => DetailsController());
+    Get.lazyPut<FavoriteController>(() => FavoriteController());
   }
 }
 

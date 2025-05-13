@@ -3,7 +3,7 @@ import 'package:e_commerce/core/services/services.dart';
 import 'package:get/get.dart';
 
 class Localization extends GetxController{
-  String selectedLanguage = 'Option 2';
+  String selectedLanguage = 'Option 1';
   MyServices myServices =Get.find();
   Locale ? language;
   changeLanguage(String lang){

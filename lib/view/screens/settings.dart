@@ -9,6 +9,7 @@ import '../../controller/cubit/UserState.dart';
 import '../../controller/cubit/showuser_cubit.dart';
 import '../../controller/darkmode_controller.dart';
 import '../../core/constants/approutes.dart';
+import '../widget/changeLanguage.dart';
 
 class Settings extends GetView<Localization> {
   const Settings({super.key});
@@ -18,7 +19,7 @@ class Settings extends GetView<Localization> {
     Get.put(Dark());
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Settings".tr,style: TextStyle(color: AppColor.orange))),
+        title:  Text("Settings".tr)),
 
        body: ListView(
             children: [
@@ -37,62 +38,35 @@ class Settings extends GetView<Localization> {
              )
               ,
               const Divider(indent: 25, endIndent: 25,),
-              ExpansionTile(
-                leading: Icon(Icons.language, color: AppColor.orange),
-                subtitle:  Text(controller.selectedLanguage=='Option 1'?"Device Language".tr:"Language".tr),
-                title:  Text("App Language".tr),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        RadioListTile<String>(
-                          title:  Text('arabic'.tr),
-                          activeColor: AppColor.green,
-                          value: 'Option 1',
-                          groupValue: controller.selectedLanguage,
-                          onChanged: (value) {
-                            controller.selectedLanguage=value!;
-                            controller.changeLanguage('ar');
-                          },
-                        ),
-                        RadioListTile<String>(
-                          title:  Text('english'.tr),
-                          activeColor: AppColor.green,
-                          value: 'Option 2',
-                          groupValue: controller.selectedLanguage,
-                          onChanged: (value) {
-                            controller.selectedLanguage=value!;
-                            controller.changeLanguage('en');
-
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              SizedBox(height: 10,),
+              ChangeLanguage(),
+               SizedBox(height: 10,),
                CustomListTile(
                 title: "Terms of use".tr,
                 iconData: Icons.privacy_tip_rounded,
                 trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+                 onTap: (){Get.toNamed(AppRoutes.terms);},
               ),
+              SizedBox(height: 10,),
+
               CustomListTile(
                 title: "Privacy Policy".tr,
                 iconData: Icons.help_outline,
                 trailing: const Icon(Icons.arrow_forward_ios, size: 18),
                 onTap: () {
-                  Get.toNamed(AppRoutes.contents);
+                  Get.toNamed(AppRoutes.privacy);
                 },
               ),
+              SizedBox(height: 10,),
 
                ExpansionTile(
                 title: Text("Get Help".tr),
                 leading:Icon( Icons.live_help,color: AppColor.orange,),
-              children: [
+                 children: [
                 Text("contact us on number".tr,style: TextStyle(color:AppColor.orange),)
               ],),
 
+              SizedBox(height: 10,),
 
               GetBuilder<Dark>(
                 builder: (controller) {
@@ -111,6 +85,7 @@ class Settings extends GetView<Localization> {
                   );
                 },
               ),
+              SizedBox(height: 10,),
 
               BlocConsumer<LogoutCubit,UserState>(
               listener: (context,state){
@@ -129,18 +104,18 @@ class Settings extends GetView<Localization> {
                 onTap: () {
                    Get.defaultDialog(
                     title: "Alert".tr,
-                    content:  Text("Are you sure you want to logout?".tr),
+                    middleText:  "Are you sure you want to logout?".tr,
                     confirm: TextButton(
                       onPressed: () {
                         context.read<LogoutCubit>().logout();
                       },
-                      child:  Text("Yes".tr),
+                      child: Text("Yes".tr,style: TextStyle(color: AppColor.orange),),
                     ),
                     cancel: TextButton(
                       onPressed: () {
                         Get.back();
                       },
-                      child:  Text("No".tr),
+                      child: Text("No".tr,style: TextStyle(color: AppColor.orange),),
                     ),
                   );
                 });}),

@@ -1,18 +1,18 @@
 import 'dart:io';
-import 'package:e_commerce/controller/cubit/signup_cubit.dart';
 import 'package:e_commerce/core/constants/appcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../controller/cubit/UserState.dart';
+import '../../controller/cubit/updateProfile_cubit.dart';
 class PickImageWidget extends StatelessWidget {
   final ImageProvider<Object>? backgroundImage;
   const PickImageWidget({super.key,required this.backgroundImage,});
 
   @override
   Widget build(BuildContext context) {
-    final profile= context.read<SignUpCubit>().profilepic ;
-    return BlocConsumer<SignUpCubit, UserState>(
+    final profile= context.read<UpdateProfileCubit>().profile ;
+    return BlocConsumer<UpdateProfileCubit, UserState>(
       listener: (context, state) {},
       builder: (context, state) {
         return SizedBox(
@@ -21,7 +21,7 @@ class PickImageWidget extends StatelessWidget {
           child: CircleAvatar(
             backgroundColor: Colors.grey.shade200,
             backgroundImage:profile==null?backgroundImage:FileImage(
-                File(context.read<SignUpCubit>().profilepic!.path)),
+                File(context.read<UpdateProfileCubit>().profile!.path)),
             child: Stack(
               children: [
                 Positioned(
@@ -41,7 +41,7 @@ class PickImageWidget extends StatelessWidget {
                           onTap: () async {
                             final image = await ImagePicker().pickImage(source: ImageSource.gallery);
                             if (image != null) {
-                              context.read<SignUpCubit>().uploadProfilePictureee(image);
+                              context.read<UpdateProfileCubit>().uploadProfilePicture(image);
                             } else {
                               print("No image selected");
                             }

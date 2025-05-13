@@ -1,14 +1,15 @@
 import 'package:e_commerce/core/constants/appcolor.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class Contents extends StatelessWidget {
-  const Contents({super.key});
+class PrivacyPolicy extends StatelessWidget {
+  const PrivacyPolicy({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Privacy Policy",style:  TextStyle(color: AppColor.orange),)
+        title: Text("Privacy Policy".tr,style:  TextStyle(color: AppColor.orange),)
       ),
     body: Container(
       margin: EdgeInsets.all(16),
@@ -17,7 +18,7 @@ class Contents extends StatelessWidget {
         
           Text(
              " Last Updated: 4 / 12 / 2024\n"
-              "\n[e-commerce] ('we', 'our', or 'us') is committed to protecting your privacy."
+              "\n[BuyBox] ('we', 'our', or 'us') is committed to protecting your privacy."
               " This Privacy Policy explains how we collect, "
               "use, and share your personal information when you use our mobile application (e-commerce). "
                " By using the App, you agree to the terms outlined in this Privacy Policy."),

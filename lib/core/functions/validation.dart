@@ -9,11 +9,7 @@ validInput(int max, int min, String type, String val) {
     if (!GetUtils.isPhoneNumber(val)) {
       return "Not a valid phone number".tr;
     }
-  }
-  if (type == "Email") {
-    if (!GetUtils.isEmail(val)) {
-      return "Not a valid Email".tr;
-    }
+
   }
 
   if (val.length < min) {
@@ -23,3 +19,4 @@ validInput(int max, int min, String type, String val) {
     return "Can't be more than $max characters";
   }
 }
+

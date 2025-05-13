@@ -7,10 +7,10 @@ import '../../core/services/services.dart';
 import 'UserState.dart';
 import 'api/api_consumer.dart';
 
-class ProductCubit extends Cubit<UserState> {
+class StoreWithProductCubit extends Cubit<UserState> {
   MyServices myServices = Get.find();
 
-  ProductCubit(this.api) : super(UserInitial());
+  StoreWithProductCubit(this.api) : super(UserInitial());
   final ApiConsumer api;
 
   product() async {

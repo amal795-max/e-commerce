@@ -1,8 +1,13 @@
-import 'package:e_commerce/core/constants/gradientBall.dart';
+
+import 'package:e_commerce/controller/cubit/resetPasswordCubit.dart';
+import 'package:e_commerce/core/constants/appimages.dart';
 import 'package:e_commerce/view/widget/CustomButton.dart';
+import 'package:e_commerce/view/widget/Loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../../../core/constants/appColor.dart';
+import '../../controller/cubit/UserState.dart';
 import '../../core/constants/approutes.dart';
 import '../../core/functions/validation.dart';
 import '../widget/CustomTextField.dart';
@@ -12,44 +17,52 @@ class CheckEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Stack(
-          children: [
-            const Positioned(right: -40, top: -40, child: GradientBall(),),
-            const Positioned(left: -30, bottom: -30, child: GradientBall(),),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 150),
-              child: ListView(
-                children: [
+    var check=context.read<ResetPasswordCubit>();
+    return  BlocConsumer<ResetPasswordCubit, UserState>(
+        listener: (context, state) {
+          if( state is SendCodeFailure)
+            Get.defaultDialog(title: "error",middleText: state.message);
+          if( state is SendCodeSuccess){
+            Get.snackbar("done".tr,state.message);
+            Get.offNamed(AppRoutes.verifyCode);
+            }},
+    builder: (context, state) {
+      return state is SendCodeLoading?const Loading(): Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+                    children: [
 
-                  const SizedBox(height: 15),
-                  Text("Forget Password", textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge,),
-                  const SizedBox(height: 15),
-                  Text("Check Phone Number", textAlign: TextAlign.center, style: TextStyle(color: AppColor.grey, fontSize: 15),),
-                  const SizedBox(height: 15),
+                      Image.asset(AppImages.verify),
+                      const SizedBox(height: 20),
+                      Text("Forget Password".tr, textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleLarge,),
+                      const SizedBox(height: 15),
+                      Text("Check Your Email".tr, textAlign: TextAlign.center,
+                        style: TextStyle(color: AppColor.grey, fontSize: 15),),
+                      const SizedBox(height: 15),
 
-                  CustomTextField(
-                    label: "phone number".tr,
-                    icon: Icons.phone,
-                    validator: (val) => validInput(10, 10, "phone number", val!),),
+                      Form(
+                        key: check.sendKey,
+                         child: CustomTextField(
+                         label: "email".tr,
+                           icon: Icons.email,
+                          controller1: check.email,
+                          validator: (val) => validInput(30, 10, "Email", val!),),
+                      ),
 
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: CustomButton(
-                      text: "Check",
-                      onPressed: () {
-                        Get.offNamed(AppRoutes.verifyCode);
-                      },
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: CustomButton(
+                          text: "check".tr,
+                          onPressed: () {
+                            check.sendCode();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+
+      );
+    });}}

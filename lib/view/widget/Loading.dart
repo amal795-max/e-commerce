@@ -9,6 +9,6 @@ class Loading extends StatelessWidget {
     return Container(
         padding:const EdgeInsets.all(100),
         color: Colors.white,
-        child: Lottie.asset("lottie/loading.json"));
+        child: Center(child: Lottie.asset("lottie/loading.json")));
   }
 }

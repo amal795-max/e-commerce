@@ -15,7 +15,6 @@ class OnBoarding extends StatelessWidget {
             SizedBox(
                 height: size.height/1.52,
                 child:const pageView()),
-
                 const containerButton()
 
 

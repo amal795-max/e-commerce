@@ -1,6 +1,13 @@
+// ignore_for_file: unused_import
+
 import 'package:e_commerce/controller/cubit/api/endPoints.dart';
+import 'package:e_commerce/controller/cubit/searchCubit.dart';
+import 'package:e_commerce/core/class/MostPopular.dart';
 import 'package:e_commerce/core/constants/approutes.dart';
 import 'package:e_commerce/core/services/services.dart';
+import 'package:e_commerce/data/data_source/mostPobular.dart';
+import 'package:e_commerce/view/screens/tabbar.dart';
+import 'package:e_commerce/view/widget/Categories.dart';
 import 'package:e_commerce/view/widget/CustomProducts.dart';
 import 'package:e_commerce/view/widget/CustomStores.dart';
 import 'package:e_commerce/view/widget/CustomTextField.dart';
@@ -10,57 +17,66 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../../controller/cubit/AllStoresCubit.dart';
 import '../../controller/cubit/UserState.dart';
+import '../../controller/cubit/getProductByIdCubit.dart';
 import '../../core/constants/appcolor.dart';
-import '../../data/data_source/Search.dart';
-import 'Products.dart';
+import '../../data/data_source/SearchStore.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
   @override
   Widget build(BuildContext context) {
     context.read<AllStoresCubit>().getAllStores();
-    List stores=[];
     MyServices myServices=Get.find();
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            foregroundColor: AppColor.orange,
-            title:  Text("Hi.${myServices.getData(key: ApiKeys.first_name)+" "+myServices.getData(key: ApiKeys.last_name)}"),
+            title:  Text("Hello.${myServices.getData(key: ApiKeys.first_name)}".tr,
+              style: TextStyle(fontSize: 14,color: AppColor.grey),),
             actions: [
-              GestureDetector(
-                onTap:(){
-                  Get.toNamed(AppRoutes.profile);},
-                child: Container(
-                  padding: const EdgeInsets.only(right: 10),
-                  height: 70,
-                  width: 70,
-                  child:  CircleAvatar(
-                    backgroundColor: AppColor.lightGrey,
-                    backgroundImage: NetworkImage(myServices.getData(key: ApiKeys.image_url)),
-                  ),
-                ),
-              ),
+             Container(
+               margin: const EdgeInsets.symmetric(horizontal: 15),
+               decoration: BoxDecoration(
+                 color: AppColor.lightGrey,
+               shape: BoxShape.circle),
+                 child: IconButton(onPressed: (){
+                   Get.toNamed(AppRoutes.order);
+                   }, icon: const Icon(Icons.notifications_active_rounded)))
             ],
             floating: true,
           ),
           SliverList(
             delegate: SliverChildListDelegate(
-              [
+    [
+       Text("Let's find your best system".tr,style: TextStyle(color: AppColor.black,fontSize: 17),),
+
+               const SizedBox(height: 10),
                CustomTextField(label: "Search".tr, icon: Icons.search,
                onTap: (){
-                 context.read<AllStoresCubit>().getAllStores();
-                 showSearch(context: context, delegate: search());}),
-            ListTile(leading:  Text("most popular".tr, style:const TextStyle(fontSize: 18))),
+                 showSearch(context: context, delegate: SearchStore(context));}),
+                Padding(padding: const EdgeInsets.all(15), child: Text("most popular".tr, style:const TextStyle(fontSize: 15)),),
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                itemCount: mostPopular.length,
+                scrollDirection: Axis.horizontal,
+                  itemBuilder:(context,i){
+                    return CustomProducts(
+                      onTap: (){
+                        Get.toNamed(AppRoutes.productDetails);
+                        context.read<GetProductByIdCubit>().getProduct(mostPopular[i].id);
 
-             // CustomProducts(itemCount: 5, image: "images/lenovo.png", name: "lenovo 15AQ", price: "600 \$"),
-             const SizedBox(height: 10),
-            Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 17),
-            child: Text("our stores".tr,style:const TextStyle(fontSize: 18),),
-          ),
+                        },
+                      image:mostPopular[i].image,
+                      name:mostPopular[i].name,
+                      price: mostPopular[i].price);
+                  }),
+            ),
+      const SizedBox(height: 20),
+
+      Padding(padding: const EdgeInsets.symmetric(horizontal: 15), child: Text("our stores".tr,style:const TextStyle(fontSize: 15),),),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: BlocConsumer<AllStoresCubit, UserState>(
               listener: (context, state){
               },
@@ -72,17 +88,15 @@ class Home extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return CustomStores(
                       onTap: (){
-                        myServices.saveData(key: ApiKeys.selectedStoreId,value:state.stores[index].id); // Save selected store ID
-                        Get.toNamed(AppRoutes.stores);},
-
-                        imageData: "http://192.168.1.112:8000/StoreImages/"+state.stores[index].store_image,
+                        myServices.saveData(key: ApiKeys.selectedStoreId,value:state.stores[index].id);
+                        Get.to(()=>const TabBarPage());},
+                        imageData: "http://192.168.1.103:8000/StoreImages/"+state.stores[index].store_image,
                         storeName: state.stores[index].name,
                         description: state.stores[index].description);
-                    },
-                ):const Loading() ;
+
+                    }):const Loading() ;
               }),
-          )],
-      ),
+          )]),
     )]));
   }
 }

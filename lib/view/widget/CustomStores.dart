@@ -14,25 +14,24 @@ class CustomStores extends StatelessWidget {
     return InkWell(
       onTap:onTap,
       child: Container(
-          margin: const EdgeInsets.all(5),
+          margin: const EdgeInsets.only(bottom: 14),
           decoration: BoxDecoration(color: AppColor.lightGrey2, borderRadius: BorderRadius.circular(20)),
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.network(imageData),
-                  SizedBox(height: 5,),
-                  Text(storeName, style: TextStyle(color: AppColor.black),
-                    maxLines: 2, overflow: TextOverflow.ellipsis,),
-
-                  Text("delivery cost : 20,000", style: TextStyle(color: AppColor.green),
-                    maxLines: 2, overflow: TextOverflow.ellipsis,),
-
-                  Text(description, style: TextStyle(color: AppColor.grey,fontSize: 12), maxLines: 3,
-                    overflow: TextOverflow.ellipsis,),
-                ],)
-          )),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                        child: Image.network(imageData)),
+                    SizedBox(height: 5),
+                    Text(storeName, style: TextStyle(color: AppColor.black),
+                      maxLines: 2, overflow: TextOverflow.ellipsis,),
+                    Text(description, style: TextStyle(color: AppColor.grey,fontSize: 12), maxLines: 3,
+                      overflow: TextOverflow.ellipsis,),
+                  ],),
+              )
+          )
 
     );
   }

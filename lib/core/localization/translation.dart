@@ -17,10 +17,12 @@ class AppTranslation extends Translations{
 
       //sign up,in
       "create account":"إنشاء حساب",
+      "hello":"أهلاً",
       "subtitle":"يرجى,تقديم معلوماتك الشخصية",
       "first name":"الاسم الأول",
       "last name":"الاسم الأخير",
       "password":"كلمة السر",
+      "email":"الإيميل",
       "confirm password":"تأكيد كلمة السر",
       "phone number":"رقم الهاتف",
         "location":"الموقع",
@@ -29,6 +31,7 @@ class AppTranslation extends Translations{
         "already have":"لديك حساب بالفعل ؟",
 
 
+      "forget password":"هل نسيت كلمة السر ؟",
       "welcome back":"أهلاً بعودتك",
       "subtitle2":"تسجيل الدخول إلى حسابك",
       "log in":"تسجيل الدخول",
@@ -39,6 +42,7 @@ class AppTranslation extends Translations{
       "Search":"البحث عن متجر..",
       "most popular":"الأكثر شهرة",
       "our stores":"متاجرنا",
+      "Let's find your best system":"  دعنا نجد\n نظامك المفضل ",
 
 
       //cart page
@@ -47,6 +51,22 @@ class AppTranslation extends Translations{
       "item amount":"عدد العناصر",
       "total":"المبلغ الكلي",
       "add more":"إضافة المزيد",
+      "delivery to":"التوصيل إلى",
+      "item count":"عدد العناصر",
+      "delivery cost":"قيمة التوصيل",
+      "tax":"الضريبة",
+      "total price":"السعر الإجمالي",
+      "confirm order":"تأكيد الطلب",
+      "My Orders":  "طلباتي",
+      "sorry":  "عذراً",
+      "ok":  "حسناً",
+      "Select color":"اختر اللون",
+      "Select size":"اختر القياس",
+      "The quantity is out of stock":  "انتهت الكمية",
+      "Description": "الوصف",
+      "Search on product": "ابحث عن منتج",
+
+
 
       //favorite page
       "my favorite":"مفضلتي",
@@ -87,9 +107,36 @@ class AppTranslation extends Translations{
 
       //product details
       "Product Details":"تفاصيل المنتج",
-      "Description":"الوصف",
       "Add to Cart":"إضافة إلى السلة",
-           },
+
+
+      //reset password
+      "done":"تم",
+      "check":"تحقق",
+      "verify":"تأكيد",
+      "change password":"تغيير كلمة السر",
+      "Your New Password must be different \nfrom previous used password":  "يجب أن تكون كلمة المرور الجديدة مختلفة\n عن كلمة المرور المستخدمة السابقة",
+      "Create New Password":"إنشاء كلمة مرور",
+      "Please Enter The Digit Code Sent \nTo Your Email":"الرجاء إدخال رمز الرقم المرسل \n إلى بريدك الإلكتروني",
+      "Verification Code":"رمز التحقق",
+      "Forget Password":"إعادة تعيين كلمة السر",
+      "Check Your Email":"التحقق من الإيميل",
+      "Reset code sent to your email":" تم إرسال رمز إعادة التعيين إلى بريدك الإلكتروني",
+      "Current password":"كلمة السر الحالية",
+      "New password":"كلمة السر الجديدة",
+      "Confirm new password":"تأكيد كلمة السر الجديدة",
+      "Change":"تغيير",
+
+      //search
+      "No stores found":"لم يتم العثور على متاجر",
+      "Search to find stores":"ابحث للعثور على المتاجر",
+      "No suggestions available":  "لا توجد اقتراحات متاحة",
+      "Start typing to see suggestions":   "بدء الكتابة لرؤية الاقتراحات",
+      "No Products found":"لم يتم العثور على منتجات",
+      "Search to find products":"ابحث للعثور على المنتجات",
+  "No Internet Connection":"لا يوجد اتصاال بالإنترنت",
+      "Retry":"إعادة المحاولة",
+},
 
 
   "en":{
@@ -105,11 +152,13 @@ class AppTranslation extends Translations{
     "finish":"finish",
 
     //sign up,in
+    "hello":"Hello",
     "create account":"Create account",
     "subtitle":"Please, Provide your information",
     "first name":"First Name",
     "last name": "Last Name",
     "password":"Password",
+    "email":"Email",
     "confirm password":"Confirm Password",
     "phone number":"phone number",
     "location":"Location",
@@ -120,6 +169,7 @@ class AppTranslation extends Translations{
 
 
     "welcome back":"Welcome Back",
+    "forget password":"Forget Password ?",
     "subtitle2":"Login to your account",
     "log in":"Log In",
     "don't have":"Don't have an account ?",
@@ -130,6 +180,7 @@ class AppTranslation extends Translations{
     "Search":"Search on store..",
     "most popular":"Most Popular",
     "our stores":"Our Stores",
+    "Let's find your best system":"  Let's find your\n  best system",
 
 
     //cart page
@@ -138,6 +189,20 @@ class AppTranslation extends Translations{
     "item amount":"item amount",
     "total":"Total amount",
     "add more":"add more",
+    "delivery to":"delivery to",
+    "item count":"item count",
+    "delivery cost":"Delivery cost",
+    "tax":"Tax",
+    "total price":"Total price",
+    "confirm order":"Confirm order",
+    "My Orders":  "My Orders",
+    "sorry":  "Sorry",
+    "ok":  "Ok",
+    "The quantity is out of stock":  "The quantity is out of stock",
+    "Select color":"Select color",
+    "Select size": "Select size",
+    "Description": "Description",
+    "Search on product": "Search on product",
 
 
     //favorite page
@@ -180,7 +245,38 @@ class AppTranslation extends Translations{
 
     //product details
     "Product Details":"Product Details",
-    "Description":"Description",
     "Add to Cart":"Add to Cart",
-  }
+
+
+  //reset password
+    "done":"done",
+    "verify":"Verify",
+    "change password":"Change Password",
+    "Create New Password":"Create New Password",
+    "Your New Password must be different \nfrom previous used password":  "Your New Password must be different \nfrom previous used password",
+    "check":"Check",
+    "Please Enter The Digit Code Sent \nTo Your Email":"Please Enter The Digit Code Sent \nTo Your Email",
+    "Verification Code":"Verification Code",
+    "Forget Password":"Reset Password",
+    "Check Your Email":"Check Your Email",
+    "Reset code sent to your email":"Reset code sent to your email",
+    "Current password":"Current password",
+    "New password":"New password",
+    "Confirm new password":"Confirm new password",
+    "Change":"Change",
+
+
+    //search
+    "No stores found":"No stores found",
+    "Search to find stores":"Search to find stores",
+    "No suggestions available":"No suggestions available",
+    "Start typing to see suggestions":"Start typing to see suggestions",
+        "No Products found":"No Products found",
+    "Search to find products":"Search to find products",
+
+  "No Internet Connection":"No Internet Connection",
+  "Retry":"Retry",
+
+
+}
 };}

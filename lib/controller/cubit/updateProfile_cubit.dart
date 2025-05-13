@@ -44,9 +44,7 @@ class UpdateProfileCubit extends Cubit<UserState>{
       }
 
       final response = await api.post(
-        isFromData: true,
-        EndPoint.update,
-        data: data,
+        isFromData: true, EndPoint.update, data: data,
       );
       UpdateProfileModel updateProfileModel=UpdateProfileModel.fromJson(response);
       myServices.saveData(key: ApiKeys.first_name, value: updateProfileModel.firstName);

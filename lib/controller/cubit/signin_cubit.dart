@@ -29,7 +29,7 @@ class SignInCubit extends Cubit<UserState>{
         emit(SignInSuccess(message: signInModel.message));
       }
       on ServerException catch (e) {
-        emit(SignInFailure(message: e.errModel.message,));
+        emit(SignInFailure(message: e.errModel.message,errors: e.errModel.getErrorMessages()));
       }
     }
     else {

@@ -42,6 +42,7 @@ class SignUpCubit extends Cubit<UserState>{
           ApiKeys.password_confirmation: confirmPassword.text,
           ApiKeys.location: location.text,
           ApiKeys.image: await uploadImageToApi(profilepic!),
+          ApiKeys.fcmToken:services.getData(key: "fcm")
         });
         SignUpModel signUpModel = SignUpModel.fromJson(response);
 
@@ -49,10 +50,11 @@ class SignUpCubit extends Cubit<UserState>{
           services.saveData(key: ApiKeys.image_url, value: signUpModel.image_url);
           services.saveData(key: ApiKeys.first_name, value: firstName.text);
           services.saveData(key: ApiKeys.last_name, value:lastName.text);
+          services.saveData(key: ApiKeys.location, value:location.text);
 
         emit(SignUpSuccess(message: signUpModel.message));
       } on ServerException catch (e) {
-        emit(SignUpFailure(message: e.errModel.message));
+        emit(SignUpFailure(message: e.errModel.message,errors: e.errModel.getErrorMessages()));
       }
     }else {
       return null;

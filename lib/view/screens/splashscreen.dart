@@ -1,87 +1,82 @@
 import 'dart:async';
 import 'package:animate_do/animate_do.dart';
+import 'package:e_commerce/controller/cubit/api/endPoints.dart';
 import 'package:e_commerce/core/constants/appcolor.dart';
 import 'package:e_commerce/core/constants/approutes.dart';
+import 'package:e_commerce/core/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
+import '../../core/constants/appimages.dart';
+
 
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<Color?> _colorAnimation;
+class _SplashScreenState extends State<SplashScreen>{
+  LatLng? endPoint;
+  MyServices myServices =Get.find();
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat(reverse: true);
+    getCurrentLocation();
+    Timer(const Duration(seconds: 3), () {Get.offNamed(AppRoutes.onboarding);});
+  }
+  Future<void> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-    _colorAnimation = ColorTween(
-      begin:AppColor.deepOrange,
-      end: AppColor.green,
-    ).animate(_controller);
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      Get.rawSnackbar(message: 'يرجى تفعيل خدمات الموقع');
+      return;
+    }
 
-    Timer(Duration(seconds: 4), () {
-      Get.offNamed(AppRoutes.onboarding);
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+       Get.rawSnackbar(message: 'تم رفض إذن الوصول للموقع');
+        return;
+      }
+    }
+
+    Position position = await Geolocator.getCurrentPosition();
+    setState(() {
+     endPoint=LatLng(position.latitude, position.longitude);
+     myServices.saveData(key: ApiKeys.latitude, value: position.latitude);
+     myServices.saveData(key: ApiKeys.longitude, value: position.longitude);
     });
-  }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          AnimatedBuilder(
-            animation: _colorAnimation,
-            builder: (context, child) {
-              return Container(
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [_colorAnimation.value!, AppColor.lightGrey2],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-              );
-            },
-          ),
-          Center(
-         child:Column(
+        body:SizedBox.expand(
+          child: FadeInLeft(
+              delay: const Duration(milliseconds: 500),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FadeInRight(
-                      duration: Duration(milliseconds: 800),
-                      delay: Duration(milliseconds: 300),
-                      child: Image.asset("images/store.png")),
-            FadeInRight(
-              duration: Duration(milliseconds: 800),
-              delay: Duration(milliseconds: 800),
-                 child:  TextButton.icon(onPressed: (){},
-                     icon: Icon(Icons.waving_hand,color: AppColor.black,),
-                     label:Text("welcome".tr , style: TextStyle(
-                       color: AppColor.black,
-                   fontSize: 25,
-                   fontWeight: FontWeight.bold,))),
-            )]
-              ),
-
-          ),
-        ],
-      ),
+                  Image.asset(AppImages.splashUser),
+                  FadeInLeft(
+                    duration: const Duration(milliseconds: 800),
+                    delay: const Duration(milliseconds: 800),
+                    child:  TextButton.icon(onPressed: (){},
+                        icon: Icon(Icons.waving_hand,color: AppColor.black,),
+                        label:Text("welcome".tr , style: TextStyle(
+                          color: AppColor.black,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,))),
+                  )  ],
+              )),
+        )
     );
   }
 }
+

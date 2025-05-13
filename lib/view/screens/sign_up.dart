@@ -1,5 +1,6 @@
 import 'package:e_commerce/controller/cubit/UserState.dart';
 import 'package:e_commerce/controller/cubit/signup_cubit.dart';
+import 'package:e_commerce/core/constants/appColor.dart';
 import 'package:e_commerce/core/constants/approutes.dart';
 import 'package:e_commerce/core/functions/validation.dart';
 import 'package:e_commerce/view/widget/CustomButton.dart';
@@ -25,10 +26,10 @@ class SignUp extends StatelessWidget {
         Get.offAllNamed(AppRoutes.bottomAppbar);
        }
       if ( state is SignUpFailure){
-        Get.defaultDialog(title: state.message);
+        Get.defaultDialog(title: state.message,content:Text(state.errors,style: TextStyle(color: AppColor.red),));
       }},
       builder: (context,state) {
-        return state is SignUpLoading ? Loading(): Scaffold(
+        return state is SignUpLoading ? const Loading(): Scaffold(
           body: SingleChildScrollView(
             child: Stack(
               children: [
@@ -42,7 +43,7 @@ class SignUp extends StatelessWidget {
                       children: [
                        Header(title: "create account".tr, subtitle: "subtitle".tr,),
                        const SizedBox(height: 10),
-                        PickImage(),
+                        const PickImage(),
                         const SizedBox(height: 15),
                          CustomTextField(
                              label: "first name".tr, icon: Icons.text_format,controller1: signup.firstName,
@@ -54,7 +55,7 @@ class SignUp extends StatelessWidget {
                          CustomTextField(label: "phone number".tr, icon: Icons.phone,controller1: signup.phoneNumber,
                             validator:(val)=> validInput(10, 10, "phone number", val!)),
 
-                         CustomTextField(label: "Email".tr, icon: Icons.email,controller1: signup.email,
+                         CustomTextField(label: "email".tr, icon: Icons.email,controller1: signup.email,
                             validator:(val)=> validInput(30, 8, "Email", val!)),
 
                         CustomTextField(label: "password".tr, icon: Icons.lock,controller1: signup.password,
@@ -66,9 +67,13 @@ class SignUp extends StatelessWidget {
                          CustomTextField(label: "location".tr, icon: Icons.location_pin,controller1: signup.location,
                              validator:(val)=> validInput(35, 4,"Location",val!)),
 
+
                         const SizedBox(height: 6),
 
                           CustomButton(text: "sign up".tr, onPressed: (){
+                            if(signup.profilepic==null)
+                              Get.snackbar("failure","Please select an image first ");
+                            else
                            signup.signup();}),
 
                         BottomAuth(text: "already have", data:"sign in",onPressed: () {Get.offNamed(AppRoutes.signIn);}),

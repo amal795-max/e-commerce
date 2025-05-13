@@ -1,7 +1,9 @@
 import 'package:e_commerce/controller/cubit/api/endPoints.dart';
 import 'package:e_commerce/controller/cubit/updateProfile_cubit.dart';
+import 'package:e_commerce/core/constants/approutes.dart';
 import 'package:e_commerce/view/widget/CustomButton.dart';
 import 'package:e_commerce/view/widget/CustomExpanionTile.dart';
+import 'package:e_commerce/view/widget/CustomListTile.dart';
 import 'package:e_commerce/view/widget/Loading.dart';
 import 'package:e_commerce/view/widget/PickImageWidget.dart';
 import 'package:flutter/material.dart';
@@ -76,9 +78,15 @@ class Profile extends StatelessWidget {
                     controller: update.updateLocation,
 
                   ),
+                  CustomListTile(
+                    onTap: (){
+                      Get.toNamed(AppRoutes.changePassword);
+                    },
+                    title: "change password".tr,iconData: Icons.password_outlined,),
+
                   const SizedBox(height: 20,),
                  state is ShowUserLoading?const CircularProgressIndicator():
-                 CustomButton(text: "save",onPressed: (){
+                 CustomButton(text: "save".tr,onPressed: (){
                    update.updateProfile();
 
 

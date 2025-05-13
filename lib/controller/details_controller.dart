@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 
-class DetailsController extends GetxController{
-  int current = 0;
+class FavoriteController extends GetxController{
+   bool  isFavorite = true;
 
-  pageChanged(int index) {
-    current = index;
+  stateChange() {
+    isFavorite = !isFavorite;
     update();
   }}
 

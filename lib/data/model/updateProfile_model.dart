@@ -25,3 +25,14 @@ class UpdateProfileModel {
   }
 
 }
+class ChangePasswordModel{
+  final String message;
+
+  ChangePasswordModel({required this.message});
+  factory ChangePasswordModel.fromJson(Map<String, dynamic>? jsonData) {
+    return ChangePasswordModel(
+      message: jsonData?[ApiKeys.message] ?? '',
+    );
+  }
+  }
+

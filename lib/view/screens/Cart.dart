@@ -1,8 +1,13 @@
-import 'package:e_commerce/controller/cart_controller.dart';
+import 'package:e_commerce/controller/cubit/UserState.dart';
+import 'package:e_commerce/controller/cubit/cartCubit.dart';
 import 'package:e_commerce/core/constants/appcolor.dart';
+import 'package:e_commerce/core/constants/approutes.dart';
 import 'package:e_commerce/view/widget/CustomButton.dart';
+import 'package:e_commerce/view/widget/Loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import '../widget/BottomSheet.dart';
 import '../widget/CustomListTile.dart';
 import '../widget/Text_iconButton.dart';
 
@@ -11,126 +16,102 @@ class Cart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("view cart".tr,style: TextStyle(color: AppColor.green),),
-        actions: [
-          GetBuilder<CartController>(
-            init: CartController(),
-            builder: (controller) {
-              return IconButton(onPressed: () {
-                Get.defaultDialog(
-                  title: "Alert !",
-                  titleStyle: TextStyle(color: AppColor.green)
-                  ,middleText: "are you sure  you want to delete all the entire cart ?",
-                  textConfirm: "Confirm",
-                 buttonColor: AppColor.green,
-                 onCancel: ()=>Get.back(),
-                  textCancel: "Cancel",
-                  onConfirm: (){controller.removeAll();
-                  Get.back();}
-
-                );
-              }, icon: const Icon(Icons.delete));
-            }
-          ),
-        ],
-      ),
+    context.read<CartCubit>().showCart();
+    return BlocConsumer<CartCubit,UserState>(
+        listener: (context,state){
+          if(state is ConfirmSuccess)
+            Get.snackbar("done", "Order Confirmed");
+        },
+        builder: (context,state){
+    if (state is ShowCartSuccess) {
+      return Scaffold(
+          appBar: AppBar(
+          title: Text("view cart".tr),),
       body: ListView(
-        children: [
-          const SizedBox(height: 15),
-          ListTile(
-            tileColor: AppColor.lightGrey2,
-            leading: Text("delivery to",style: TextStyle(color: AppColor.grey),),
-            title: Text("My address",style: TextStyle(color: AppColor.black),),
-          ),
-          const SizedBox(height: 15),
-
-          GetBuilder<CartController>(
-              init: CartController(),
-              builder: (controller) {
-                  return  ListView.builder(
+      children: [
+      const SizedBox(height: 10),
+         ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 4,
+                  itemCount: state.cart.length,
                   itemBuilder: (BuildContext context, int index) {
+                    final cart=state.cart[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: Container(
-                        margin: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          color: AppColor.lightGrey2,
-                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),bottomRight:  Radius.circular(20)),
-                           ),
+                      child: SizedBox(
                         child: Row(
                           children: [
                             Expanded(
                               child: ListTile(
-                                leading: Image.asset("images/lenovo.png"),
-                                title:const Text("laptop",style:  TextStyle(fontSize: 14),),
-                                subtitle:const Text("500 \$"),
+                                leading: Image.network(cart.image_urls[0]),
+
+                                title: Text(cart.name,style: const TextStyle(fontSize: 10),),
+
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                         Text("${cart.price} \$"),
+                cart.selected_size!="."?Text("size : ${cart.selected_size}", style: TextStyle(fontSize: 10),):SizedBox(),
+
+
+                            cart.selected_color!="." ?Row(
+                              children: [
+                                Text("color : ",style: TextStyle(fontSize: 10),),
+                              Container(
+                                height: 23,width: 23,
+                                 decoration: BoxDecoration(
+                                 shape: BoxShape.circle,
+                                 color: Color(int.parse(cart.selected_color.replaceFirst('#', '0xFF')))))
+                                      ],
+                                    ):const SizedBox()
+                                  ],
+                                ),
+
                               ),
                             ),
-                            IconButton(onPressed: () {}, icon: Icon(Icons.remove_circle_outline_sharp, color: AppColor.orange,),),
-                            const Text("1", style: TextStyle(fontSize: 16),),
-                            IconButton(onPressed: () {}, icon: Icon(Icons.add_circle_outlined, color: AppColor.orange)),
+                            Text("${cart.quantity}", style:const TextStyle(fontSize: 16),),
+
+                            IconButton(
+                         icon: Icon(Icons.delete_outlined, color: AppColor.orange),
+                          onPressed: () {
+                         context.read<CartCubit>().deleteFromCart(cart.id);
+                         context.read<CartCubit>().showCart();
+                       }),
+
+
                           ],),
                       ),);},
-                  );
-                        }
-                            ),
-                 const TextIconButton(text: 'add more'),
-                 Divider(
-                   thickness: 12,
-                  color: AppColor.lightGrey2,
+           separatorBuilder: (BuildContext context, int index) {
+                    return Divider(endIndent: 20,indent: 20,);
+         },
+                  ),
+                  TextIconButton(text:'add more',onPressed: (){Get.offNamed(AppRoutes.customBottom);}),
+
+                 Divider(thickness: 12, color: AppColor.lightGrey2,),
+                 CustomListTile(
+                  title:"total".tr,
+                  trailing: Text("${state.total_price} \$"),
                 ),
-                 ListTile(
-                  title: Text("total".tr),
-                  trailing: const Text("81.80 \$"),
-                ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-            child: CustomButton(text: "next".tr,onPressed: (){
+              Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+              child: CustomButton(text: "next".tr,onPressed: (){
               Get.bottomSheet(
                   backgroundColor: AppColor.white,
-                  Column(
-                    children:
-                        [
-                      const SizedBox(height: 15),
-                      const CustomListTile(
-                        title:"item count",
-                        trailing: Text("4"),
-                      ) ,
-                      const Divider(indent: 15,endIndent: 15,)
-                      ,    const CustomListTile(
-                        title: "delivery",
-                        trailing: Text("4.90\$"),
-                      )
-                      ,const Divider(indent: 15,endIndent: 15,)  ,
+                  CustomBottomSheet()
 
-                      const CustomListTile(
-                        title:"tax",
-                        trailing: Text("0.90\$"),
-                      )
-                      ,const Divider(indent: 15,endIndent: 15,)
-                      ,const CustomListTile(
-                        title: "total price",
-                        trailing: Text("92.90\$"),
-                      ),
-                      const SizedBox(height:20),
-
-                      CustomButton(text: 'Confirm order'.tr,onPressed: (){},)
-
-                    ],
-                  ));
+              );
             }
           ))
-
-      ],
-
-
+      ]
       )
-    );
-  }
+    );}
+    else if (state is ShowCartFailure)
+      return Scaffold(
+          body:
+          Container(
+          color: AppColor.white,
+          child: Center(child: Text(state.message))));
+    else
+      return const Loading();
+  }); }
 }
